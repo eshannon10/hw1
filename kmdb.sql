@@ -54,14 +54,17 @@
 -- - Follow best practices for table and column names
 -- - Use correct data column types (i.e. TEXT/INTEGER)
 -- - Use of the `model_id` naming convention for foreign key columns
+
 -- 3. Insertion of data (INSERT statements) - 4 points
 -- - Insert data into all the tables you've created
 -- - It actually works, i.e. proper INSERT syntax
+
 -- 4. "The report" (SELECT statements) - 6 points
 -- - Write 2 `SELECT` statements to produce something similar to the
 --   sample output below - 1 for movies and 1 for cast. You will need
 --   to read data from multiple tables in each `SELECT` statement.
 --   Formatting does not matter.
+
 -- 5. Using external resources for help with the assignment (including colleagues, AI, internet search, etc):
 -- - Engineers look to colleagues and the internet all the time when building software.
 --   You are welcome to do the same. However, the solution you submit must utilize
@@ -111,10 +114,46 @@
 .headers off
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
--- TODO!
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS studios;
+DROP TABLE IF EXISTS actors;
+
 
 -- Create new tables, according to your domain model
--- TODO!
+
+-- Studios table
+CREATE TABLE studios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    studio_name TEXT
+);
+
+-- Movies table
+CREATE TABLE movies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    year INTEGER,
+    rating TEXT,
+    studio_id INTEGER,
+    FOREIGN KEY (studio_id) REFERENCES studios (id) -- not covered in class but recommended
+);
+
+-- Actors table
+CREATE TABLE actors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    actor_name TEXT
+);
+
+-- Roles table
+CREATE TABLE roles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    character TEXT,
+    movie_id INTEGER,
+    actor_id INTEGER,
+    FOREIGN KEY (movie_id) REFERENCES movies (id), -- not covered in class but recommended
+    FOREIGN KEY (actor_id) REFERENCES actors (id) -- not covered in class but recommended
+);
+
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
